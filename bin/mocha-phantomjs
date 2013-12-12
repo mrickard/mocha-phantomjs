@@ -52,6 +52,10 @@ function resolveHooks(val) {
 
   return absPath;
 }
+function waitfor(val) {
+  return keyValue(val, waitfor);
+}
+
 
 program
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
@@ -66,7 +70,8 @@ program
   .option('-s, --setting <key>=<value>', 'specify specific phantom settings', setting)
   .option('-v, --view <width>x<height>', 'specify phantom viewport size', viewport)
   .option('-C, --no-color',              'disable color escape codes')
-  .option('-p, --path <path>',           'path to PhantomJS binary');
+  .option('-p, --path <path>',           'path to PhantomJS binary')
+  .option('-W, --waitfor <key>=<value>', 'specify tests to wait for before page.evaluate', waitfor);
 
 program.on('--help', function(){
   console.log('  Examples:');
