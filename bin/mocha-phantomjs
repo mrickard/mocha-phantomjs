@@ -106,7 +106,8 @@ var config = JSON.stringify({
   settings: settings,
   viewportSize: program.view,
   useColors: program.color,
-  file: program.file
+  file: program.file,
+  waitfor: program.waitfor
 });
 
 
