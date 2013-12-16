@@ -95,6 +95,19 @@ class Reporter
     @mochaStarted = @page.evaluate -> mochaPhantomJS.runner or false
     if @mochaStarted
       @mochaRunAt = new Date().getTime()
+      ###
+      if @config.waitfor
+        maxtimeOutMillis = (if @config.waitfor.timeout then @config.waitfor.timeout else 30000)
+        start = new Date().getTime()
+        condition = false
+        while new Date().getTime() - start < maxtimeOutMillis
+          mochaPhantomJS.sleep 250
+          condition = ((if typeof (@config.waitfor.test) is "string" then eval_(@config.waitfor.test) else @config.waitfor.test()))
+          break  if condition
+        throw Error("Timeout: " + @config.waitfor.message)  unless condition
+        console.log "+++ waitUntil finished in " + (new Date().getTime() - start) + " millis."
+      ###
+
       @waitForMocha()
     else
       @fail "Failed to start mocha."
